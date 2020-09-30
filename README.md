@@ -1,5 +1,6 @@
 # Otis
 
+![GitHub](https://img.shields.io/github/license/alazsengul/COMS4995-OSS)
 ![Python Version](https://img.shields.io/badge/python-3.7-blue)
 ![GitHub last commit](https://img.shields.io/github/last-commit/alazsengul/COMS4995-OSS)  
   
