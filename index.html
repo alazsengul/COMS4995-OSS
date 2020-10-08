@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <script src="https://unpkg.com/wavesurfer.js@4.1.1/dist/wavesurfer.js"></script>
+        <script src="http://hammerjs.github.io/dist/hammer.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/zingtouch/1.0.6/zingtouch.min.js"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+
+    </head>
+
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+            background: #dbdbdb;
+            overflow: hidden;
+        }
+        #waveform_container {
+            margin: 0px 32px;
+            background: #dbdbdb;
+            /* border-radius: 10px; */
+            background: #eae6dc;
+            box-shadow:  20px 20px 60px #c7c4bb,
+                         -20px -20px 60px #fffffd;
+
+
+                         background: #dfe2e7;
+            box-shadow:  20px 20px 60px #bec0c4,
+                         -20px -20px 60px #ffffff;
+        }
+        #waveform_wrapper {
+            /* border: 1px solid #333333; */
+            /* border-radius: 10px; */
+            overflow-y: scroll;
+            /* padding: 32px 0px; */
+            /* margin: 32px; */
+        }
+        #waveform_waves {
+            /* width: 5000px; */
+        }
+
+        #title {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 12px;
+            margin: 16px 32px;
+            background-color: white;
+            width: fit-content;
+            font-weight: bold;
+        }
+
+    </style>
+
+    <body>
+        <div id="title">
+            <p>Otis / 2020.10.07 / "Led Zeppelin — 1980's Hits"</p>
+        </div>
+        <div id="waveform_container">
+            <div id="waveform_wrapper">
+                <div id="waveform_waves"></div>
+            </div>
+        </div>
+
+    </body>
+
+    <script>
+
+        var wavesurfer = WaveSurfer.create({
+            container: '#waveform_waves',
+            // backend: 'MediaElement',
+            responsive: true,
+            height: 64,
+            barHeight: 0.5,
+            progressColor: '#000'
+        });
+
+        wavesurfer.load('https://ia903105.us.archive.org/29/items/cd_watch-the-throne_jay-z-kanye-west-beyonc-curtis-mayfield-fr/disc1/04.%20Jay-Z%3B%20Kanye%20West%3B%20Otis%20Redding%20-%20Otis_sample.mp3');
+
+        var zoomIndex = 50
+        function doScroll(e) {
+            console.log(zoomIndex);
+            if ((e.deltaY < 0) && (zoomIndex < 250)) {
+                zoomIndex += 5 * (zoomIndex / 50)
+                wavesurfer.zoom(zoomIndex);
+            }
+            else if ((e.deltaY > 0) && (zoomIndex > 35)) {
+                zoomIndex -= 5 * (zoomIndex / 50)
+                wavesurfer.zoom(zoomIndex);
+            }
+        }
+        window.addEventListener("wheel", doScroll, false);
+
+        document.getElementById('waveform_waves').addEventListener('wheel',function(e) {
+            e.stopPropagation();
+        }, true);
+
+        document.addEventListener(
+          'wheel',
+          function touchHandler(e) {
+            if (e.ctrlKey) {
+              e.preventDefault();
+            }
+          },
+          { passive: false }
+        );
+
+        document.addEventListener("keydown", e => {
+          if (e.key == "a") {
+              wavesurfer.play(1);
+          }
+          if (e.key == "s") {
+              wavesurfer.play(10);
+          }
+          if (e.key == "j") {
+              wavesurfer.play(25);
+          }
+        });
+
+    </script>
+
+
+</html>
